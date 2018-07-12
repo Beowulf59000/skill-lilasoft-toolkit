@@ -1,0 +1,26 @@
+{
+  "name": "skill-lilasoft-toolkit",
+  "version": "1.0.0",
+  "description": "description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beowulf59000/skill-lilasoft-toolkit.git"
+  },
+  "keywords": [
+    "toolkit",
+    "lilasoft",
+    "alexa",
+    "skill",
+    "kit"
+  ],
+  "author": "Johnny Behague <johnny.behague@live.fr> (https://twitter.com/johnnybehague)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Beowulf59000/skill-lilasoft-toolkit/issues"
+  },
+  "homepage": "https://github.com/Beowulf59000/skill-lilasoft-toolkit#readme"
+}
