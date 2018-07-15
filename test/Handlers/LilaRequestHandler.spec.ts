@@ -88,7 +88,6 @@ describe('LilaRequestHandler', () => {
             const speakersHelperMock: IMock<SpeakersHelper> = Mock.ofType(SpeakersHelper);
             messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(messages))).returns(() => message);
             messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(reprompts))).returns(() => reprompt);
-            //speakersHelperMock.setup(x => x.speakWithReprompt(It.isValue(handlerInput), It.isValue(message), It.isValue(reprompt))).returns(() => new Response());
             const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
 
             const handler = new LilaRequestHandler('requestName', messages, reprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);
