@@ -8,6 +8,7 @@
         "sourceMap": true,
         "outDir": "dist/",
         "noUnusedLocals": false,
-        "noUnusedParameters": false        
+        "noUnusedParameters": false,
+        "declaration": true        
     }
   }

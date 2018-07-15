@@ -11,10 +11,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class SpeakersHelper {
     completeSpeak(handlerInput, message, reprompt, cardMessage, skillName) {
         return __awaiter(this, void 0, void 0, function* () {
-            let responseBuilder = handlerInput.responseBuilder.speak(message);
-            if (reprompt !== null)
+            let responseBuilder = handlerInput.responseBuilder;
+            if (!message)
+                responseBuilder = responseBuilder.speak(message);
+            if (!reprompt)
                 responseBuilder = responseBuilder.reprompt(reprompt);
-            if (skillName !== null && cardMessage !== null)
+            if (!skillName && !cardMessage)
                 responseBuilder = responseBuilder.withSimpleCard(skillName, cardMessage);
             return responseBuilder.getResponse();
         });

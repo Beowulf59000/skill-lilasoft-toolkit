@@ -4,9 +4,11 @@ import {  Response } from 'ask-sdk-model';
 export default class SpeakersHelper {
     private async completeSpeak(handlerInput: HandlerInput, message: string, reprompt: string, cardMessage: string, skillName: string): Promise<Response>
     {
-        let responseBuilder = handlerInput.responseBuilder.speak(message);
-        if(reprompt !== null) responseBuilder = responseBuilder.reprompt(reprompt);
-        if(skillName !== null && cardMessage !== null) responseBuilder = responseBuilder.withSimpleCard(skillName, cardMessage);
+        let responseBuilder = handlerInput.responseBuilder;
+        
+        if(!message) responseBuilder = responseBuilder.speak(message);
+        if(!reprompt) responseBuilder = responseBuilder.reprompt(reprompt);
+        if(!skillName && !cardMessage) responseBuilder = responseBuilder.withSimpleCard(skillName, cardMessage);
         return responseBuilder.getResponse();
     };
 

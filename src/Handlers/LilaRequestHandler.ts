@@ -32,6 +32,7 @@ export default class LilaRequestHandler implements RequestHandler {
 
         const message = this.messagesHelper.getRandomMessage(this.messages);
         const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
+        
         return this.speakersHelper.speakWithReprompt(handlerInput, message, reprompt);
     }
 }
