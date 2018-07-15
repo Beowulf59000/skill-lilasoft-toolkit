@@ -10,13 +10,13 @@ export default class LilaRequestHandler implements RequestHandler {
     speakersHelper: SpeakersHelper;
     messagesHelper: MessagesHelper;
     
-    constructor(requestName: string, messages: string[], reprompts: string[]) {
+    constructor(requestName: string, messages?: string[], reprompts?: string[], handlersHelper?: HandlersHelper, speakersHelper?: SpeakersHelper, messagesHelper?: MessagesHelper) {
         this.requestName = requestName;
         this.messages = messages;
         this.reprompts = reprompts;
-        this.handlersHelper = new HandlersHelper();
-        this.speakersHelper = new SpeakersHelper();
-        this.messagesHelper = new MessagesHelper();
+        this.handlersHelper = (handlersHelper) ? handlersHelper : new HandlersHelper();
+        this.speakersHelper = (speakersHelper) ? speakersHelper : new SpeakersHelper();
+        this.messagesHelper = (messagesHelper) ? messagesHelper : new MessagesHelper();
     }
 
     public canHandle(handlerInput: HandlerInput): boolean {
@@ -28,8 +28,6 @@ export default class LilaRequestHandler implements RequestHandler {
     };
 
     public async handle(handlerInput: HandlerInput): Promise<Response> {
-        return handlerInput.responseBuilder.getResponse();
-
         const message = this.messagesHelper.getRandomMessage(this.messages);
         const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
         

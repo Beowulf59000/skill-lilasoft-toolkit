@@ -6,9 +6,9 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --require ts-node/register test/*.ts",
+    "test": "mocha --require ts-node/register test/**/*.spec.ts",
     "test-reporter": "mocha --require ts-node/register test/*.ts --reporter mocha-junit-reporter --reporter-options mochaFile=../test-results.xml",
-    "coverage": "tsc && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/*.js -- -R spec",
+    "coverage": "tsc && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/**/*.spec.js -- -R spec",
     "coverage-reporter": "tsc && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/*.js --reporter mocha-junit-reporter --reporter-options mochaFile=../test-results.xml"
   },
   "repository": {
@@ -34,14 +34,15 @@
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.4",
     "@types/node": "^10.5.2",
-    "string-format": "^2.0.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.17.0",
     "remap-istanbul": "^0.11.1",
+    "string-format": "^2.0.0",
     "ts-node": "^7.0.0",
+    "typemoq": "^2.1.0",
     "typescript": "^2.9.2"
   },
   "bugs": {

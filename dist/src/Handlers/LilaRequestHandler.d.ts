@@ -8,7 +8,7 @@ export default class LilaRequestHandler implements RequestHandler {
     handlersHelper: HandlersHelper;
     speakersHelper: SpeakersHelper;
     messagesHelper: MessagesHelper;
-    constructor(requestName: string, messages: string[], reprompts: string[]);
+    constructor(requestName: string, messages?: string[], reprompts?: string[], handlersHelper?: HandlersHelper, speakersHelper?: SpeakersHelper, messagesHelper?: MessagesHelper);
     canHandle(handlerInput: HandlerInput): boolean;
     handle(handlerInput: HandlerInput): Promise<Response>;
 }

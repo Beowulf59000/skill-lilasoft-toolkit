@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Helpers_1 = require("../Helpers");
 class LilaRequestHandler {
-    constructor(requestName, messages, reprompts) {
+    constructor(requestName, messages, reprompts, handlersHelper, speakersHelper, messagesHelper) {
         this.requestName = requestName;
         this.messages = messages;
         this.reprompts = reprompts;
-        this.handlersHelper = new Helpers_1.HandlersHelper();
-        this.speakersHelper = new Helpers_1.SpeakersHelper();
-        this.messagesHelper = new Helpers_1.MessagesHelper();
+        this.handlersHelper = (handlersHelper) ? handlersHelper : new Helpers_1.HandlersHelper();
+        this.speakersHelper = (speakersHelper) ? speakersHelper : new Helpers_1.SpeakersHelper();
+        this.messagesHelper = (messagesHelper) ? messagesHelper : new Helpers_1.MessagesHelper();
     }
     canHandle(handlerInput) {
         if (!this.requestName) {
@@ -27,7 +27,6 @@ class LilaRequestHandler {
     ;
     handle(handlerInput) {
         return __awaiter(this, void 0, void 0, function* () {
-            return handlerInput.responseBuilder.getResponse();
             const message = this.messagesHelper.getRandomMessage(this.messages);
             const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
             return this.speakersHelper.speakWithReprompt(handlerInput, message, reprompt);
