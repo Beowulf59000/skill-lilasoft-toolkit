@@ -6,10 +6,25 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --require ts-node/register test/**/*.spec.ts",
-    "test-reporter": "mocha --require ts-node/register test/*.ts --reporter mocha-junit-reporter --reporter-options mochaFile=../test-results.xml",
-    "coverage": "tsc && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/**/*.spec.js -- -R spec",
-    "coverage-reporter": "tsc && istanbul cover ./node_modules/mocha/bin/_mocha dist/test/*.js --reporter mocha-junit-reporter --reporter-options mochaFile=../test-results.xml"
+    "test": "nyc mocha",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov mocha"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "repository": {
     "type": "git",
@@ -39,7 +54,9 @@
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.17.0",
+    "nyc": "^12.0.2",
     "remap-istanbul": "^0.11.1",
+    "source-map-support": "^0.5.6",
     "string-format": "^2.0.0",
     "ts-node": "^7.0.0",
     "typemoq": "^2.1.0",
