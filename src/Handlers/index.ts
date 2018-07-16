@@ -1,4 +1,4 @@
-import LilaIntentHandler from "./LilaIntentHander";
+import LilaIntentHandler from "./LilaIntentHandler";
 import LilaRequestHandler from "./LilaRequestHandler";
 
 
