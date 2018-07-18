@@ -1,8 +1,8 @@
 import { HandlersHelper } from "../../src/Helpers";
 import { HELP_INTENT, CANCEL_INTENT } from '../../src/Intents';
-import { HandlerInput, ResponseBuilder } from "ask-sdk-core";
+import { HandlerInput } from "ask-sdk-core";
 import { assert } from "chai";
-import { ResponseEnvelope, RequestEnvelope, Request, IntentRequest } from "ask-sdk-model";
+import { RequestEnvelope, Request, IntentRequest } from "ask-sdk-model";
 import { LAUNCH_REQUEST, INTENT_REQUEST } from '../../src/Requests';
 
 describe("HandlersHelper", () => {

@@ -1,6 +1,6 @@
 import { SpeakersHelper, HandlersHelper, MessagesHelper } from "../Helpers";
 import { Response } from "ask-sdk-model";
-import { RequestHandler, HandlerInput } from "ask-sdk";
+import { RequestHandler, HandlerInput } from "ask-sdk-core";
 
 export default class LilaRequestHandler implements RequestHandler {
     requestName: string;
@@ -31,6 +31,6 @@ export default class LilaRequestHandler implements RequestHandler {
         const message = this.messagesHelper.getRandomMessage(this.messages);
         const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
         
-        return this.speakersHelper.speakWithReprompt(handlerInput, message, reprompt);
+        return this.speakersHelper.speak(handlerInput, message, reprompt);
     }
 }

@@ -7,7 +7,8 @@ export default class MessagesHelper {
         return (messages[i]);
     };
 
-    public getRandomMessageWithParameter(messages: string[], parameter): string {
+    /* istanbul ignore next */
+    public getRandomMessageWithParameter (messages: string[], parameter: any): string {
         let message = this.getRandomMessage(messages);
         return format(message, parameter);
     }

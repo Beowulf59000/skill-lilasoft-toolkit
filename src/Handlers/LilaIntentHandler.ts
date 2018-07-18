@@ -1,6 +1,6 @@
 import { SpeakersHelper, HandlersHelper, MessagesHelper } from "../Helpers";
 import { Response } from "ask-sdk-model";
-import { RequestHandler, HandlerInput } from "ask-sdk";
+import { RequestHandler, HandlerInput } from "ask-sdk-core";
 
 export default class LilaIntentHandler implements RequestHandler {
     requestIntentNames: string[];
@@ -30,6 +30,6 @@ export default class LilaIntentHandler implements RequestHandler {
     public async handle(handlerInput: HandlerInput): Promise<Response> {
         const message = this.messagesHelper.getRandomMessage(this.messages);
         const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
-        return this.speakersHelper.speakWithReprompt(handlerInput, message, reprompt);
+        return this.speakersHelper.speak(handlerInput, message, reprompt);
     }
 }

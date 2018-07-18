@@ -1,7 +1,7 @@
 import { LilaRequestHandler } from "../../src/Handlers";
 import 'mocha';
 import { assert } from 'chai';
-import { HandlerInput } from "ask-sdk";
+import { HandlerInput } from "ask-sdk-core";
 import { HandlersHelper, MessagesHelper, SpeakersHelper } from "../../src/Helpers";
 import { IMock, Mock, It, Times } from "typemoq";
 
@@ -92,7 +92,7 @@ describe('LilaRequestHandler', () => {
 
             const handler = new LilaRequestHandler('requestName', messages, reprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);
             await handler.handle(handlerInput);
-            speakersHelperMock.verify(x => x.speakWithReprompt(It.isValue(handlerInput), It.isValue(message), It.isValue(reprompt)), Times.once());
+            speakersHelperMock.verify(x => x.speak(It.isValue(handlerInput), It.isValue(message), It.isValue(reprompt)), Times.once());
         });
     });
 });
