@@ -37,7 +37,7 @@ describe("HandlersHelper", () => {
         it("it throws TypeError when request is undefined", () => {
             const helper: HandlersHelper = new HandlersHelper();
             const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-            let fn = () => helper.canHandleRequestWithIntents(handlerInput, [HELP_INTENT]);
+            let fn = () => helper.canHandleRequestWithIntents(handlerInput, HELP_INTENT);
             assert.throws(fn, TypeError, "Cannot read property 'request' of undefined"); 
         });
 
@@ -55,7 +55,7 @@ describe("HandlersHelper", () => {
                 context: undefined
             };
             const handlerInput: HandlerInput = { requestEnvelope: requestEnvelope, attributesManager: undefined, responseBuilder: undefined};
-            const isHandled = helper.canHandleRequestWithIntents(handlerInput, [HELP_INTENT]);
+            const isHandled = helper.canHandleRequestWithIntents(handlerInput, HELP_INTENT);
             assert.isFalse(isHandled);
         });
 
@@ -75,7 +75,7 @@ describe("HandlersHelper", () => {
                 context: undefined
             };
             const handlerInput: HandlerInput = { requestEnvelope: requestEnvelope, attributesManager: undefined, responseBuilder: undefined};
-            const isHandled = helper.canHandleRequestWithIntents(handlerInput, [HELP_INTENT, CANCEL_INTENT]);
+            const isHandled = helper.canHandleRequestWithIntents(handlerInput, HELP_INTENT);
             assert.isTrue(isHandled);
         });
     });

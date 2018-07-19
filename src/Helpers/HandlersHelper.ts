@@ -7,12 +7,12 @@ export default class HandlersHelper {
         return handlerInput.requestEnvelope.request.type === expectedRequest;
     };
 
-    public canHandleRequestWithIntents(handlerInput: HandlerInput, expectedIntents: string[]): boolean {
+    public canHandleRequestWithIntents(handlerInput: HandlerInput, expectedIntent: string): boolean {
         if(handlerInput.requestEnvelope.request.type !== INTENT_REQUEST) {
             return false;
         }
 
         const targetHandlerName = (<IntentRequest>handlerInput.requestEnvelope.request).intent.name;
-        return expectedIntents.indexOf(targetHandlerName) > -1;
+        return expectedIntent === targetHandlerName;
     };
 };
