@@ -3,15 +3,15 @@ import { Response } from "ask-sdk-model";
 import { RequestHandler, HandlerInput } from "ask-sdk-core";
 
 export default class LilaIntentHandler implements RequestHandler {
-    requestIntentNames: string[];
+    intentName: string;
     messages: string[];
     reprompts: string[];
     handlersHelper: HandlersHelper;
     speakersHelper: SpeakersHelper;
     messagesHelper: MessagesHelper;
     
-    constructor(requestIntentNames: string[], messages?: string[], reprompts?: string[], handlersHelper?: HandlersHelper, speakersHelper?: SpeakersHelper, messagesHelper?: MessagesHelper) {
-        this.requestIntentNames = requestIntentNames;
+    constructor(intentName: string, messages?: string[], reprompts?: string[], handlersHelper?: HandlersHelper, speakersHelper?: SpeakersHelper, messagesHelper?: MessagesHelper) {
+        this.intentName = intentName;
         this.messages = messages;
         this.reprompts = reprompts;
         this.handlersHelper = (handlersHelper) ? handlersHelper : new HandlersHelper();
@@ -20,11 +20,11 @@ export default class LilaIntentHandler implements RequestHandler {
     }
 
     public canHandle(handlerInput: HandlerInput): boolean {
-        if(!this.requestIntentNames) {
+        if(!this.intentName) {
             return true;
         }
 
-        return this.handlersHelper.canHandleRequestWithIntents(handlerInput, this.requestIntentNames); 
+        return this.handlersHelper.canHandleRequestWithIntents(handlerInput, this.intentName); 
     };
 
     public async handle(handlerInput: HandlerInput): Promise<Response> {
