@@ -1,20 +1,36 @@
 import { SpeakersHelper } from "../../src";
 import { HandlerInput, ResponseBuilder } from "ask-sdk-core";
-import { assert } from "chai";
 import { IMock, Mock, It, Times } from "typemoq";
 
 describe("SpeakersHelper", () => {
+    let responseBuilderMock: IMock<ResponseBuilder>;
+    let mockedHandlerInput: HandlerInput;
+    let helper: SpeakersHelper;
+    let mockedMessage: string;
+    let mockedReprompt: string;
+    let mockedSkillName: string;
+    let mockedCardMessage: string;
+
+    before(() => {
+        helper = new SpeakersHelper();
+        mockedMessage = "message";
+        mockedReprompt = "reprompt";
+        mockedSkillName = "skillName";
+        mockedCardMessage = "cardMessage";
+    });
+
+    beforeEach(() => {
+        responseBuilderMock = Mock.ofType<ResponseBuilder>();
+        responseBuilderMock.setup(x => x.speak(It.isAnyString())).returns(() => responseBuilderMock.object);
+        responseBuilderMock.setup(x => x.reprompt(It.isAnyString())).returns(() => responseBuilderMock.object);
+        responseBuilderMock.setup(x => x.withSimpleCard(It.isAnyString(), It.isAnyString())).returns(() => responseBuilderMock.object);
+
+        mockedHandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: responseBuilderMock.object};
+    });
+
     describe("speak", () => {
         it("it calls getResponse when no parameter is given", async () => {
-            const responseBuilderMock: IMock<ResponseBuilder> = Mock.ofType<ResponseBuilder>();
-            responseBuilderMock.setup(x => x.speak(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.reprompt(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.withSimpleCard(It.isAnyString(), It.isAnyString())).returns(() => responseBuilderMock.object);
-
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: responseBuilderMock.object};
-            
-            const helper: SpeakersHelper = new SpeakersHelper();
-            await helper.speak(handlerInput);
+            await helper.speak(mockedHandlerInput);
 
             responseBuilderMock.verify(x => x.speak(It.isAnyString()), Times.never());
             responseBuilderMock.verify(x => x.reprompt(It.isAnyString()), Times.never());
@@ -23,53 +39,29 @@ describe("SpeakersHelper", () => {
         });
 
         it("it calls speak when message is given", async () => {
-            const responseBuilderMock: IMock<ResponseBuilder> = Mock.ofType<ResponseBuilder>();
-            responseBuilderMock.setup(x => x.speak(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.reprompt(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.withSimpleCard(It.isAnyString(), It.isAnyString())).returns(() => responseBuilderMock.object);
+            await helper.speak(mockedHandlerInput, mockedMessage);
 
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: responseBuilderMock.object};
-            
-            const helper: SpeakersHelper = new SpeakersHelper();
-            await helper.speak(handlerInput, "message");
-
-            responseBuilderMock.verify(x => x.speak(It.isValue("message")), Times.once());
+            responseBuilderMock.verify(x => x.speak(It.isValue(mockedMessage)), Times.once());
             responseBuilderMock.verify(x => x.reprompt(It.isAnyString()), Times.never());
             responseBuilderMock.verify(x => x.withSimpleCard(It.isAnyString(), It.isAnyString()), Times.never());
             responseBuilderMock.verify(x => x.getResponse(), Times.once());
         });
 
         it("it calls reprompt when reprompt is given", async () => {
-            const responseBuilderMock: IMock<ResponseBuilder> = Mock.ofType<ResponseBuilder>();
-            responseBuilderMock.setup(x => x.speak(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.reprompt(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.withSimpleCard(It.isAnyString(), It.isAnyString())).returns(() => responseBuilderMock.object);
+            await helper.speak(mockedHandlerInput, mockedMessage, mockedReprompt);
 
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: responseBuilderMock.object};
-            
-            const helper: SpeakersHelper = new SpeakersHelper();
-            await helper.speak(handlerInput, "message", "reprompt");
-
-            responseBuilderMock.verify(x => x.speak(It.isValue("message")), Times.once());
-            responseBuilderMock.verify(x => x.reprompt(It.isValue("reprompt")), Times.once());
+            responseBuilderMock.verify(x => x.speak(It.isValue(mockedMessage)), Times.once());
+            responseBuilderMock.verify(x => x.reprompt(It.isValue(mockedReprompt)), Times.once());
             responseBuilderMock.verify(x => x.withSimpleCard(It.isAnyString(), It.isAnyString()), Times.never());
             responseBuilderMock.verify(x => x.getResponse(), Times.once());
         });
 
         it("it calls withSimpleCard when skillName and cardMessage are given", async () => {
-            const responseBuilderMock: IMock<ResponseBuilder> = Mock.ofType<ResponseBuilder>();
-            responseBuilderMock.setup(x => x.speak(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.reprompt(It.isAnyString())).returns(() => responseBuilderMock.object);
-            responseBuilderMock.setup(x => x.withSimpleCard(It.isAnyString(), It.isAnyString())).returns(() => responseBuilderMock.object);
+            await helper.speak(mockedHandlerInput, mockedMessage, mockedReprompt, mockedCardMessage, mockedSkillName);
 
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: responseBuilderMock.object};
-            
-            const helper: SpeakersHelper = new SpeakersHelper();
-            await helper.speak(handlerInput, "message", "reprompt", "cardMessage", "skillName");
-
-            responseBuilderMock.verify(x => x.speak(It.isValue("message")), Times.once());
-            responseBuilderMock.verify(x => x.reprompt(It.isValue("reprompt")), Times.once());
-            responseBuilderMock.verify(x => x.withSimpleCard("skillName", "cardMessage"), Times.once());
+            responseBuilderMock.verify(x => x.speak(It.isValue(mockedMessage)), Times.once());
+            responseBuilderMock.verify(x => x.reprompt(It.isValue(mockedReprompt)), Times.once());
+            responseBuilderMock.verify(x => x.withSimpleCard(mockedSkillName, mockedCardMessage), Times.once());
             responseBuilderMock.verify(x => x.getResponse(), Times.once());
         });
     });
