@@ -70,7 +70,7 @@ describe("HandlersHelper", () => {
                 context: undefined
             };
             const handlerInput = { requestEnvelope: requestEnvelope, attributesManager: undefined, responseBuilder: undefined };
-            const isHandled = helper.canHandleRequestWithIntents(handlerInput, Intents_1.CANCEL_INTENT);
+            const isHandled = helper.canHandleRequestWithIntents(handlerInput, Intents_1.HELP_INTENT);
             chai_1.assert.isTrue(isHandled);
         });
     });

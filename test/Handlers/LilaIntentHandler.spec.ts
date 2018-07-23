@@ -6,10 +6,21 @@ import { HandlersHelper, MessagesHelper, SpeakersHelper } from "../../src/Helper
 import { IMock, Mock, It, Times } from "typemoq";
 
 describe('LilaIntentHandler', () => {
+    var handler: LilaIntentHandler;
+    let mockedIntentName: string;
+    let mockedMessages: string[];
+    let mockedReprompts: string[];
+
+    before(() => {
+        mockedIntentName = "intent";
+        mockedMessages = ["message 1", "message 2"];
+        mockedReprompts = ["reprompt 1", "reprompt 2"];
+    });
+    
     describe('constructor', () => {
         it('it can be called with requestIntentNames', () => {
-            const handler = new LilaIntentHandler('intent');
-            assert.deepEqual(handler.intentName, 'intent');
+            handler = new LilaIntentHandler(mockedIntentName);
+            assert.equal(handler.intentName, mockedIntentName);
             assert.isUndefined(handler.messages);
             assert.isUndefined(handler.reprompts);
             assert.isDefined(handler.messagesHelper);
@@ -18,9 +29,9 @@ describe('LilaIntentHandler', () => {
         });
     
         it('it can be called with requestIntentNames and messages', () => {
-            const handler = new LilaIntentHandler('intent', ['message 1', 'message 2']);
-            assert.deepEqual(handler.intentName, 'intent');
-            assert.deepEqual(handler.messages, ['message 1', 'message 2']);
+            handler = new LilaIntentHandler(mockedIntentName, mockedMessages);
+            assert.equal(handler.intentName, mockedIntentName);
+            assert.deepEqual(handler.messages, mockedMessages);
             assert.isUndefined(handler.reprompts);
             assert.isDefined(handler.messagesHelper);
             assert.isDefined(handler.speakersHelper);
@@ -28,10 +39,10 @@ describe('LilaIntentHandler', () => {
         });
     
         it('it can be called with requestIntentNames, messages and reprompts', () => {
-            const handler = new LilaIntentHandler('intent', ['message 1', 'message 2'], ['reprompt 1', 'reprompt 2']);
-            assert.deepEqual(handler.intentName, 'intent');
-            assert.deepEqual(handler.messages, ['message 1', 'message 2']);
-            assert.deepEqual(handler.reprompts, ['reprompt 1', 'reprompt 2']);
+            handler = new LilaIntentHandler(mockedIntentName, mockedMessages, mockedReprompts);
+            assert.equal(handler.intentName, mockedIntentName);
+            assert.deepEqual(handler.messages, mockedMessages);
+            assert.deepEqual(handler.reprompts, mockedReprompts);
             assert.isDefined(handler.messagesHelper);
             assert.isDefined(handler.speakersHelper);
             assert.isDefined(handler.handlersHelper);
@@ -39,63 +50,61 @@ describe('LilaIntentHandler', () => {
     });
 
     describe('canHandle', () => {
+        let mockedHandlerInput: HandlerInput;
+        let handlersHelperMock: IMock<HandlersHelper>;
+
+        before(() => {
+            mockedHandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
+            handlersHelperMock = Mock.ofType(HandlersHelper);
+        });
+
         it('it returns true when requestIntentNames are undefined', () => {
-            const handler = new LilaIntentHandler(undefined);
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-            const isHandled = handler.canHandle(handlerInput);
+            handler = new LilaIntentHandler(undefined);
+            const isHandled = handler.canHandle(mockedHandlerInput);
             assert.isTrue(isHandled);
         });
 
         it('it calls handlersHelper.canHandleRequest', () => {
-            const intentName = 'intent';
-            const handlersHelperMock: IMock<HandlersHelper> = Mock.ofType(HandlersHelper);
-            const handler = new LilaIntentHandler(intentName, undefined, undefined, handlersHelperMock.object);
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-            handler.canHandle(handlerInput);
-            handlersHelperMock.verify(x => x.canHandleRequestWithIntents(It.isValue(handlerInput), It.isValue(intentName)), Times.once());
+            handler = new LilaIntentHandler(mockedIntentName, undefined, undefined, handlersHelperMock.object);
+            handler.canHandle(mockedHandlerInput);
+            handlersHelperMock.verify(x => x.canHandleRequestWithIntents(It.isValue(mockedHandlerInput), It.isValue(mockedIntentName)), Times.once());
         });
     });
 
     describe('handle', () => {
+        let messagesHelperMock: IMock<MessagesHelper>;
+        let speakersHelperMock: IMock<SpeakersHelper>;
+        let mockedHandlerInput: HandlerInput;
+        let mockedMessage: string;
+        let mockedReprompt: string;
+
+        before(() => { 
+            mockedMessage = "message 1";
+            mockedReprompt = "reprompt 2";
+            mockedHandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
+        });
+        
+        beforeEach(() => {
+            messagesHelperMock = Mock.ofType(MessagesHelper);
+            speakersHelperMock = Mock.ofType(SpeakersHelper);
+            messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(mockedMessages))).returns(() => mockedMessage);
+            messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(mockedReprompts))).returns(() => mockedReprompt);     
+            handler = new LilaIntentHandler(mockedIntentName, mockedMessages, mockedReprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);             
+        });
+
         it('it calls messagesHelper.getRandomMessage for messages', async () => {
-            const intentName = 'intent';
-            const messages = ['message 1', 'message 2'];
-            const reprompts = ['reprompt 1', 'reprompt 2'];
-            const messagesHelperMock: IMock<MessagesHelper> = Mock.ofType(MessagesHelper);
-            const speakersHelperMock: IMock<SpeakersHelper> = Mock.ofType(SpeakersHelper);
-            const handler = new LilaIntentHandler(intentName, messages, reprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-            await handler.handle(handlerInput);
-            messagesHelperMock.verify(x => x.getRandomMessage(It.isValue(messages)), Times.once());
+            await handler.handle(mockedHandlerInput);
+            messagesHelperMock.verify(x => x.getRandomMessage(It.isValue(mockedMessages)), Times.once());
         });
 
         it('it calls messagesHelper.getRandomMessage for reprompts', async () => {
-            const intentName = 'intent';
-            const messages = ['message 1', 'message 2'];
-            const reprompts = ['reprompt 1', 'reprompt 2'];
-            const messagesHelperMock: IMock<MessagesHelper> = Mock.ofType(MessagesHelper);
-            const speakersHelperMock: IMock<SpeakersHelper> = Mock.ofType(SpeakersHelper);
-            const handler = new LilaIntentHandler(intentName, messages, reprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-            await handler.handle(handlerInput);
-            messagesHelperMock.verify(x => x.getRandomMessage(It.isValue(reprompts)), Times.once());
+            await handler.handle(mockedHandlerInput);
+            messagesHelperMock.verify(x => x.getRandomMessage(It.isValue(mockedReprompts)), Times.once());
         });
 
         it('it calls speakersHelper.speakWithReprompt', async () => {
-            const intentName = 'intent';
-            const messages = ['message 1', 'message 2'];
-            const reprompts = ['reprompt 1', 'reprompt 2'];
-            const message = 'message 1';
-            const reprompt = 'message 2';
-            const messagesHelperMock: IMock<MessagesHelper> = Mock.ofType(MessagesHelper);
-            const speakersHelperMock: IMock<SpeakersHelper> = Mock.ofType(SpeakersHelper);
-            messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(messages))).returns(() => message);
-            messagesHelperMock.setup(x => x.getRandomMessage(It.isValue(reprompts))).returns(() => reprompt);
-            const handlerInput: HandlerInput = { requestEnvelope: undefined, attributesManager: undefined, responseBuilder: undefined};
-
-            const handler = new LilaIntentHandler(intentName, messages, reprompts, undefined, speakersHelperMock.object, messagesHelperMock.object);
-            await handler.handle(handlerInput);
-            speakersHelperMock.verify(x => x.speak(It.isValue(handlerInput), It.isValue(message), It.isValue(reprompt)), Times.once());
+            await handler.handle(mockedHandlerInput);
+            speakersHelperMock.verify(x => x.speak(It.isValue(mockedHandlerInput), It.isValue(mockedMessage), It.isValue(mockedReprompt)), Times.once());
         });
     });
 });
