@@ -21,4 +21,5 @@ jobs:
         provider: npm
         email: "johnny.behague@live.fr"
         api_key: $NPM_API_KEY
-        on: deploy-npm-release
+        on:
+          branch: master
