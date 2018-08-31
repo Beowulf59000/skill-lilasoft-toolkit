@@ -1,5 +1,7 @@
 import { format } from "string-format";
+import { ClassLogger } from 'rich-logger-decorator';
 
+@ClassLogger()
 export default class MessagesHelper {
     public getRandomMessage(messages:string[]) : string {
         let i = 0;

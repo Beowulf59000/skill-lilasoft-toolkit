@@ -1,7 +1,9 @@
 import { HandlerInput } from "ask-sdk-core";
 import { IntentRequest } from 'ask-sdk-model';
 import { INTENT_REQUEST } from '../Requests';
+import { ClassLogger } from 'rich-logger-decorator';
 
+@ClassLogger()
 export default class HandlersHelper {
     public canHandleRequest(handlerInput: HandlerInput, expectedRequest: string): boolean {
         return handlerInput.requestEnvelope.request.type === expectedRequest;

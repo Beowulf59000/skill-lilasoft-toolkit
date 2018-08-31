@@ -1,6 +1,8 @@
 import { HandlerInput } from "ask-sdk-core";
 import {  Response } from 'ask-sdk-model'; 
+import { ClassLogger } from 'rich-logger-decorator';
 
+@ClassLogger()
 export default class SpeakersHelper {
     public async speak(handlerInput: HandlerInput, message?: string, reprompt?: string, cardMessage?: string, skillName?: string): Promise<Response>
     {

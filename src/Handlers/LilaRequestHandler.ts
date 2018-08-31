@@ -1,7 +1,9 @@
 import { SpeakersHelper, HandlersHelper, MessagesHelper } from "../Helpers";
 import { Response } from "ask-sdk-model";
 import { RequestHandler, HandlerInput } from "ask-sdk-core";
+import { ClassLogger } from 'rich-logger-decorator';
 
+@ClassLogger()
 export default class LilaRequestHandler implements RequestHandler {
     requestName: string;
     messages: string[];

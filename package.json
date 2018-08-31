@@ -1,6 +1,6 @@
 {
   "name": "skill-lilasoft-toolkit",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "description",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -43,7 +43,8 @@
     "ask-cli": "^1.4.0",
     "ask-sdk": "^2.0.7",
     "ask-sdk-core": "^2.0.0",
-    "ask-sdk-model": "^1.0.0"
+    "ask-sdk-model": "^1.0.0",
+    "rich-logger-decorator": "^4.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
