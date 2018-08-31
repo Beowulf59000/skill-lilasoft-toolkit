@@ -19,5 +19,13 @@ You can install this toolkit with npm command line :
 
 `npm install skill-lilasoft-toolkit`
 
+## Contributions 
+You can contribute to this project by :
+* Open a ticket (issue, feature, ...)
+* Push a Pull Request
+* Share its content
+
+<a href='https://ko-fi.com/Z8Z8IWUI' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 ## License
 This project is under the [MIT License](https://github.com/Beowulf59000/skill-lilasoft-toolkit/blob/master/LICENSE).
