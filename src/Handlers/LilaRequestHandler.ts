@@ -22,6 +22,7 @@ export default class LilaRequestHandler implements RequestHandler {
     }
 
     public canHandle(handlerInput: HandlerInput): boolean {
+        console.log('call of LilaRequestHandler.canHandleRequest with handlerInput : ' + handlerInput);
         if(!this.requestName) {
             return true;
         }
@@ -30,6 +31,7 @@ export default class LilaRequestHandler implements RequestHandler {
     };
 
     public async handle(handlerInput: HandlerInput): Promise<Response> {
+        console.log('call of LilaRequestHandler.handle with handlerInput : ' + handlerInput);
         const message = this.messagesHelper.getRandomMessage(this.messages);
         const reprompt = this.messagesHelper.getRandomMessage(this.reprompts);
         

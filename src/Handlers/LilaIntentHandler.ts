@@ -23,10 +23,12 @@ export default class LilaIntentHandler implements RequestHandler {
         this.messagesHelper = (messagesHelper) ? messagesHelper : new MessagesHelper();
 
         this.canHandleRequest = (intentName: string,  handlersHelper: HandlersHelper, handlerInput: HandlerInput): boolean => {
+            console.log('call of LilaIntentHandler.canHandleRequest with intentName : ' + intentName);
             if(!intentName) { return true; }
             return handlersHelper.canHandleRequestWithIntents(handlerInput, intentName);
         };
         this.handleRequest = (messagesHelper: MessagesHelper, speakersHelper: SpeakersHelper, handlerInput: HandlerInput, messages?: string[], reprompts?: string[]): Promise<Response> => {
+            console.log('call of LilaIntentHandler.handleRequest');
             return speakersHelper.speak(handlerInput, messagesHelper.getRandomMessage(messages), messagesHelper.getRandomMessage(reprompts));
         };
     }
